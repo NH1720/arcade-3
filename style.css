@@ -67,3 +67,7 @@ button {
 span {
     color: red;
 }
+
+#win-msg {
+    color: rgb(255, 0, 0);
+}
