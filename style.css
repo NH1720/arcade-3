@@ -1,13 +1,13 @@
-/* #title {
+/* /* #title {
     background-color: red;
 } */
-* {
+/* * {
     box-sizing: border-box;
 }
 
 main {
     display: flex;
-    width: 80vh;
+    width: 70vh;
     flex-wrap: wrap;
 }
 
@@ -17,4 +17,53 @@ main {
     font-size: 12vh;
     border: 1px solid black;
    
+}  */
+#title {
+    color: greenyellow;
+}
+
+body {
+    background-color: black;
+}
+
+.cell{
+    width: 75px;
+    height: 75px;
+    border: 2px solid greenyellow;
+    box-shadow: 0 0 0 2px greenyellow;
+    line-height: 75px;
+    font-size: 50px;
+    cursor: pointer;
+    color: red;
+}
+
+#gameContainer{
+    text-align: center;
+}
+
+.cellContainer{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: 225px;
+    margin: auto;
+}
+
+#player-turn {
+    margin: 20px;
+    color: greenyellow;
+    
+}
+
+input {
+    border: 2px solid greenyellow;
+    background-color: darkgray;
+}
+
+button {
+    background-color: darkgray;
+    color: red;
+}
+
+span {
+    color: red;
 }
