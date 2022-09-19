@@ -1,5 +1,7 @@
 const boardElem = document.querySelector("#board");
 const playerTurnElem = document.querySelector("#player-turn");
+
+
 const winMsg = document.querySelector("#win-msg");
 
 const state = {};
@@ -33,7 +35,7 @@ let running = false;
 
 function checkWinner() {
   let roundWon = false;
-
+  winMsg.innerHTML = "";
   for (let i = 0; i < winConditions.length; i++) {
     const condition = winConditions[i];
     const cellA = state.board[condition[0]];
@@ -58,15 +60,19 @@ function checkWinner() {
 
 const changeTurn = () => {
   state.currentPlayerIdx = state.currentPlayerIdx === 0 ? 1 : 0;
+  if (state.currentPlayerIdx === 1 && state.players[1] === 'the Computer') {
+    compGuess();
+  }
+  render();
 };
 
 function renderBoard() {
   boardElem.innerHTML = "";
   for (let i = 0; i < state.board.length; ++i) {
-    const card = state.board[i];
     const cellElem = document.createElement("div");
     cellElem.classList.add("cell");
     cellElem.dataset.index = i;
+    cellElem.innerHTML = state.board[i];
     boardElem.appendChild(cellElem);
   }
 }
@@ -89,6 +95,18 @@ function renderPlayer() {
 }
 
 
+function compGuess() {
+  for (let i = 0; i < state.board.length; i++) {
+    if (state.board[i].length !== 0) {
+      continue;
+    } else {
+      state.board[i] = 'O';
+      break;
+    }
+  }
+  changeTurn();
+};
+
 function render() {
   renderBoard();
   renderPlayer();
@@ -96,13 +114,17 @@ function render() {
 }
 
 boardElem.addEventListener("click", function (event) {
+  if (winMsg.innerHTML === `${state.getCurrentPlayer()} won!` || winMsg.innerHTML === `Draw!`) {
+    return;
+  };
+  if (state.players[0] === "") {
+    return;
+  }
   if (event.target.className !== "cell") {
     return;
   }
- 
   const cellIdx = event.target.dataset.index;
-  let cell = document.getElementById(cellIdx);
-if (state.board[cellIdx] === 'X' || state.board[cellIdx] === 'O') {
+if (state.board[cellIdx].length !== 0) {
   return;
 }
 if (state.currentPlayerIdx === 0) {
@@ -112,7 +134,6 @@ if (state.currentPlayerIdx === 0) {
 }
   console.log(state.board);
   changeTurn();
-  render();
 });
 
 playerTurnElem.addEventListener("click", function (event) {
@@ -126,8 +147,8 @@ playerTurnElem.addEventListener("click", function (event) {
     if (!player2Value) {
       state.players[1] = 'the Computer';
     }
-    render();
-  }
+    changeTurn();
+  };
 
   if (event.target.className === 'reset') {
     buildInitialState();
